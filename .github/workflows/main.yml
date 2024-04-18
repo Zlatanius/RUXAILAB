@@ -22,7 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install matplotlib pandas requests
+        pip install matplotlib pandas requests github textwrap
 
     - name: Run report generation script
       env:
