@@ -22,7 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install matplotlib pandas requests aiohttp==3.8.1 github
+        pip install matplotlib pandas requests github
 
     - name: Run report generation script
       env:
