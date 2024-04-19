@@ -24,7 +24,7 @@ jobs:
 
     - name: Run report generation script
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         USER: ${{ secrets.USER }}
         PROJECT: ${{ secrets.PROJECT }}
       run: python scripts.py
