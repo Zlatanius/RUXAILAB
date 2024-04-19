@@ -148,12 +148,9 @@ def generate_scatter_diagram_report(repo_owner, repo_name, github_token):
 
 
 def main():
-    # github_token = os.getenv('TOKEN')
-    # username = os.getenv('USER')
-    # repository_name = os.getenv('PROJECT')
-    github_token = "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"
-    username = "Zlatanius"
-    repository_name = "BURGIJA"
+    github_token = os.getenv('TOKEN')
+    username = os.getenv('USER')
+    repository_name = os.getenv('PROJECT')
     print(github_token)
     print(username)
     print(repository_name)
