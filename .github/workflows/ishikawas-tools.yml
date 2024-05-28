@@ -27,4 +27,4 @@ jobs:
         TOKEN: ${{ secrets.TOKEN }}
         USER: ${{ secrets.USER }}
         PROJECT: ${{ secrets.PROJECT }}
-      run: python scripts.py
+      run: python ./ishikawa_tools/ishikawa_tools.py
