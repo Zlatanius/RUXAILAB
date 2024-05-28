@@ -27,7 +27,7 @@ jobs:
         TOKEN: ${{ secrets.TOKEN }}
         USER: ${{ secrets.USER }}
         PROJECT: ${{ secrets.PROJECT }}
-      run: python ./ishikawa_tools/ishikawa_tools.py
+      run: python ishikawa_tools/ishikawa_tools.py
     - uses: actions/upload-artifact@v4
       with:
         name: ishikawa-screenshots
