@@ -50,17 +50,29 @@ def generate_pareto_diagram(issues):
     plt.xticks(rotation=45, ha='right', fontsize=8)
     ax1.set_xticklabels(['\n'.join(wrap(label, 13)) for label in labels])
     plt.tight_layout()
-    plt.show()
+    plt.savefig('./ishikawa_tools/output/pereto.pdf')
 
 
 def generate_weekly_report(github_token, username, repository_name):
+    # Crear una instancia de la clase Github
     g = Github(github_token)
+
+    # Obtener el repositorio
     repo = g.get_repo(f"{username}/{repository_name}")
+
+    # Obtener todas las issues del repositorio
     issues = repo.get_issues(state='all')
-    weekly_counts = {'Monday': {'opened': 0, 'closed': 0}, 'Tuesday': {'opened': 0, 'closed': 0},
-                     'Wednesday': {'opened': 0, 'closed': 0}, 'Thursday': {'opened': 0, 'closed': 0},
-                     'Friday': {'opened': 0, 'closed': 0}, 'Saturday': {'opened': 0, 'closed': 0},
-                     'Sunday': {'opened': 0, 'closed': 0}}
+
+    # Diccionario para almacenar el recuento de issues por día de la semana
+    weekly_counts = {
+        'Monday': {'opened': 0, 'closed': 0},
+        'Tuesday': {'opened': 0, 'closed': 0},
+        'Wednesday': {'opened': 0, 'closed': 0},
+        'Thursday': {'opened': 0, 'closed': 0},
+        'Friday': {'opened': 0, 'closed': 0},
+        'Saturday': {'opened': 0, 'closed': 0},
+        'Sunday': {'opened': 0, 'closed': 0}
+    }
 
     def get_day_of_week(date_str):
         date = datetime.strptime(date_str[:10], '%Y-%m-%d')
@@ -68,16 +80,52 @@ def generate_weekly_report(github_token, username, repository_name):
 
     current_date = datetime.now()
     one_week_ago = current_date - timedelta(days=7)
+
     for issue in issues:
         created_at = issue.created_at.replace(tzinfo=None)
         if created_at >= one_week_ago:
             day_of_week = get_day_of_week(str(created_at))
             weekly_counts[day_of_week]['opened'] += 1
+
         if issue.closed_at:
             closed_at = issue.closed_at.replace(tzinfo=None)
             if closed_at >= one_week_ago:
                 day_of_week = get_day_of_week(str(closed_at))
                 weekly_counts[day_of_week]['closed'] += 1
+
+    # Extraer los datos para la tabla
+    dias = list(weekly_counts.keys())
+    abiertas = [weekly_counts[d]["opened"] for d in weekly_counts]
+    cerradas = [weekly_counts[d]["closed"] for d in weekly_counts]
+
+    data = {
+        "Día de la Semana": dias,
+        "Abiertas": abiertas,
+        "Cerradas": cerradas
+    }
+
+    # Crear la tabla
+    df = pd.DataFrame(data)
+
+    # Crear figura y eje
+    fig, ax = plt.subplots()
+
+    # Eliminar marcas del eje
+    ax.axis('off')
+
+    # Crear tabla
+    tabla = ax.table(cellText=df.values,
+                     colLabels=df.columns,
+                     cellLoc='center',
+                     loc='center')
+
+    # Ajustar tamaño de la fuente
+    tabla.auto_set_font_size(False)
+    tabla.set_fontsize(12)
+
+    # Ajustar tamaño de la tabla
+    tabla.scale(1.5, 1.5)
+    plt.savefig('./ishikawa_tools/output/checklist.pdf')
 
 
 def generate_histogram_report(repo_owner, repo_name, github_token):
@@ -113,7 +161,7 @@ def generate_histogram_report(repo_owner, repo_name, github_token):
     plt.title('Histogram of Issues by Label - General Report')
     plt.xticks(rotation=20)
     plt.yticks(range(0, max(labels_count.values()) + 1))
-    plt.show()
+    plt.savefig('./ishikawa_tools/output/histogram.pdf')
 
 
 def generate_scatter_diagram_report(repo_owner, repo_name, github_token):
@@ -144,18 +192,18 @@ def generate_scatter_diagram_report(repo_owner, repo_name, github_token):
     plt.ylabel('Date of creation of the issue')
     plt.title('Scatter Diagram of closed issues')
     plt.grid(True)
-    plt.show()
+    plt.savefig('./ishikawa_tools/output/scatter.pdf')
 
 
 def main():
     github_token = os.getenv('TOKEN')
     username = os.getenv('USER')
     repository_name = os.getenv('PROJECT')
-    generate_weekly_report(github_token, username, repository_name)
     issues = fetch_issues(username, repository_name, github_token)
     generate_pareto_diagram(issues)
     generate_histogram_report(username, repository_name, github_token)
     generate_scatter_diagram_report(username, repository_name, github_token)
+    generate_weekly_report(github_token, username, repository_name)
 
 
 if __name__ == "__main__":

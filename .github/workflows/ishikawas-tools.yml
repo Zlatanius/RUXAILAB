@@ -3,7 +3,7 @@ name: Generate Reports
 on:
   push:
     branches:
-      - develop
+      - ishikawas-tools
 
 jobs:
   generate-reports:
@@ -28,3 +28,8 @@ jobs:
         USER: ${{ secrets.USER }}
         PROJECT: ${{ secrets.PROJECT }}
       run: python ./ishikawa_tools/ishikawa_tools.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ishikawa-screenshots
+        path: ./ishikawa_tools/output
+        retention-days: 30
