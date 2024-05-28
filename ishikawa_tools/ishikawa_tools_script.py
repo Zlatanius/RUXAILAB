@@ -199,10 +199,10 @@ def main():
     issues = fetch_issues(username, repository_name, github_token)
     Path("./ishikawa_tools/output").mkdir(parents=True, exist_ok=True)
 
-    # generate_pareto_diagram(issues)
+    generate_pareto_diagram(issues)
     generate_histogram_report(username, repository_name, github_token)
-    # generate_scatter_diagram_report(username, repository_name, github_token)
-    # generate_weekly_report(github_token, username, repository_name)
+    generate_scatter_diagram_report(username, repository_name, github_token)
+    generate_weekly_report(github_token, username, repository_name)
 
 
 if __name__ == "__main__":
