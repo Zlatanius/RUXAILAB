@@ -141,13 +141,6 @@ def generate_histogram_report(repo_owner, repo_name, github_token):
         issues = response.json()
 
     labels_count = {
-        "back-end": 0,
-        "bug": 0,
-        "database": 0,
-        "documentation": 0,
-        "front-end": 0,
-        "tests": 0,
-        "wontfix": 0,
     }
 
     for issue in issues:
@@ -155,6 +148,8 @@ def generate_histogram_report(repo_owner, repo_name, github_token):
             label_name = label['name']
             if label_name in labels_count:
                 labels_count[label_name] += 1
+            else:
+                labels_count[label_name] = 1
 
     plt.figure(figsize=(10, 6))
     plt.bar(labels_count.keys(), labels_count.values())
@@ -200,14 +195,14 @@ def main():
     github_token = os.getenv('TOKEN')
     username = os.getenv('USER')
     repository_name = os.getenv('PROJECT')
-    
+
     issues = fetch_issues(username, repository_name, github_token)
     Path("./ishikawa_tools/output").mkdir(parents=True, exist_ok=True)
 
-    generate_pareto_diagram(issues)
+    # generate_pareto_diagram(issues)
     generate_histogram_report(username, repository_name, github_token)
-    generate_scatter_diagram_report(username, repository_name, github_token)
-    generate_weekly_report(github_token, username, repository_name)
+    # generate_scatter_diagram_report(username, repository_name, github_token)
+    # generate_weekly_report(github_token, username, repository_name)
 
 
 if __name__ == "__main__":
