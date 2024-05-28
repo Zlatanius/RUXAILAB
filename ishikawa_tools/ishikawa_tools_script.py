@@ -5,6 +5,7 @@ from github import Github
 import matplotlib.pyplot as plt
 import requests
 from textwrap import wrap
+from pathlib import Path
 
 
 def fetch_issues(repo_owner, repo_name, github_token):
@@ -199,7 +200,10 @@ def main():
     github_token = os.getenv('TOKEN')
     username = os.getenv('USER')
     repository_name = os.getenv('PROJECT')
+    
     issues = fetch_issues(username, repository_name, github_token)
+    Path("./ishikawa_tools/output").mkdir(parents=True, exist_ok=True)
+
     generate_pareto_diagram(issues)
     generate_histogram_report(username, repository_name, github_token)
     generate_scatter_diagram_report(username, repository_name, github_token)
