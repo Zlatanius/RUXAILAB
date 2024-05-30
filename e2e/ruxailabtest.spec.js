@@ -16,12 +16,12 @@ const logIn = async (page) => {
 const createTest = async (page, type) => {
   await page.click(
     'button.v-btn.v-btn--bottom.v-btn--is-elevated.v-btn--fab.v-btn--fixed.v-btn--has-bg.v-btn--right.v-btn--round',
-  )
+  ) // Click new test button
 
   await page.click('.card-title:has-text("Create a blank test")')
 
-  type === 'heuristic' && (await page.click('.card.col-sm-10.col-md-5.col-10'))
-  type === 'usability' && (await page.click('.card.col-sm-10.col-md-5.col-12'))
+  type === 'heuristic' && (await page.click('.card.col-sm-10.col-md-5.col-10')) // Press heuristic test card
+  type === 'usability' && (await page.click('.card.col-sm-10.col-md-5.col-12')) // Press usability test card
 
   await page
     .getByRole('textbox', { name: 'Test Name' })
@@ -32,14 +32,13 @@ const createTest = async (page, type) => {
 
   await page.click(
     '.ml-auto.mr-2.circleOrange.v-btn.v-btn--fab.v-btn--has-bg.v-btn--round.theme--dark.v-size--default.orange',
-  )
+  ) // Click create test button
 
-  type === 'usability' && (await page.click('.card.col-sm-10.col-md-4.col-10'))
+  type === 'usability' && (await page.click('.card.col-sm-10.col-md-4.col-10')) // Click self test card
 
-  // back to console
   await page.click(
     '.console-button.mx-1.hidden-sm-and-down.v-btn.v-btn--text.theme--dark.v-size--default',
-  )
+  ) // Click go back to console button
 }
 
 test('has link page', async ({ page }) => {
@@ -67,10 +66,11 @@ test('sign and create template', async ({ page }) => {
 
   await page.click(
     'button.v-btn.v-btn--bottom.v-btn--is-elevated.v-btn--fab.v-btn--fixed.v-btn--has-bg.v-btn--right.v-btn--round',
-  )
+  ) // Click create new test button
   await page.click('.card-title:has-text("Create from template")')
+
   //create MARCTEST
-  await page.click('.v-list-item.v-list-item--link.theme--light')
+  await page.click('.v-list-item.v-list-item--link.theme--light') // Select template
   await page.getByRole('button', { name: 'NEXT' }).click()
   await page
     .getByRole('textbox', { name: 'Title' })
@@ -80,8 +80,7 @@ test('sign and create template', async ({ page }) => {
     .fill('Some description for template')
   await page.getByRole('button', { name: 'CREATE' }).click()
 
-  // back to console
   await page.click(
     '.console-button.mx-1.hidden-sm-and-down.v-btn.v-btn--text.theme--dark.v-size--default',
-  )
+  ) // Click go back to console button
 })
