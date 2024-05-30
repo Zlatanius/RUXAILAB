@@ -29,7 +29,7 @@ module.exports = defineConfig({
     /* Create a screenshot if a test fails */
     screenshot: { mode: 'only-on-failure', fullPage: true },
 
-    storageState: './playwright/.auth/user.json',
+    storageState: 'playwright/.auth/user.json',
   },
 
   /* Configure projects for major browsers */
