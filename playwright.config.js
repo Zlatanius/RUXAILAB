@@ -2,6 +2,8 @@
 const { defineConfig, devices } = require('@playwright/test')
 
 module.exports = defineConfig({
+  globalSetup: './playwright/setup/global-setup.js',
+
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -26,6 +28,8 @@ module.exports = defineConfig({
 
     /* Create a screenshot if a test fails */
     screenshot: { mode: 'only-on-failure', fullPage: true },
+
+    storageState: './playwright/.auth/user.json',
   },
 
   /* Configure projects for major browsers */
