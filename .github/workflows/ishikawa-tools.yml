@@ -5,6 +5,7 @@ on:
     - cron: '0 0 * * *'
   issues:
     types: [opened, deleted, closed, reopened, labeled]
+  workflow_dispatch:
 
 jobs:
   generate-reports:
