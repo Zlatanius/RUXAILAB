@@ -97,7 +97,6 @@ test('failure test template', async ({ page }) => {
     await expect(page).toHaveURL('https://ruxailab-prod.web.app/testslist')
   } catch {
     console.error('Failed to click button or URL did not match:')
-    await page.waitForTimeout(2000) // 2 segundo de delay
     page.close()
   }
 })
